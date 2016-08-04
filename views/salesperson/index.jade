@@ -1,0 +1,49 @@
+extends ../layout
+
+block content
+  h3 Invoices for #{salesPerson}
+  div.row
+    button.btn.btn-success(data-bind="click: displayForm") Create Invoice
+  div.alert.alert-success.hidden#alert-message
+    h4(data-bind="{text: alertMessage}")
+  div.table-responsive
+    table.table.table-striped
+      tr
+        th Company
+        th State
+        th.text-right Due
+      each invoice in invoices
+        tr(data-bind="{click: displayForm.bind(null, '#{invoice._id}')}")
+          td=invoice.company
+          td=invoice.state
+          td.text-right $#{invoice.total}.00
+
+  div.modal.fade#invoice-form(tab-index="-1", role="dialog")
+    div.modal-dialog.modal-lg(role="document", data-bind="with: currentInvoice")
+      div.modal-content
+        div.modal-header
+          h4(data-bind="{text: company}")
+        div.modal-body
+          h3 Invoice status
+          form.form-inline
+            div.form-group
+              label Status:&nbsp;
+              select.form-control(data-bind="{value: state, options: $root.states}")
+          h3 Items
+          div(data-bind="{foreach: items}")
+            form.form-inline
+              div.form-group
+                label.sr-only Product name
+                select.form-control(data-bind="{value: name, options: $root.products}")
+              div.form-group
+                label &nbsp;Number:&nbsp;
+                input.form-control(type="text", data-bind="value: number")
+              div.form-group
+                label &nbsp;Price:&nbsp;
+                input.form-control(type="text", data-bind="value: price")
+        div.modal-footer
+          button.btn.btn-success(data-bind="click: $root.save, clickBubble: false") Save
+block scripts
+  script(src="/knockout/knockout.js")
+  script(src="/javascripts/salesperson.js")
+  

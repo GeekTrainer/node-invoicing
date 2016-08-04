@@ -1,0 +1,25 @@
+{
+  "name": "node-invoicing",
+  "description": "Sample invoicing application",
+  "main": "",
+  "authors": [
+    "Christopher Harrison"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap-css": "^3.3.6",
+    "jquery": "~2",
+    "knockout": "^3.4.0"
+  },
+  "install": {
+    "path": "public"
+  }
+}

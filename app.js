@@ -4,9 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+require('dotenv').config();
+require('mongoose').connect(process.env.DB_CONNECTION_STRING);
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var salesPerson = require('./controllers/salesPerson');
+var invoice = require('./controllers/invoice');
 
 var app = express();
 
@@ -24,6 +28,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
+app.use('/salesperson', salesPerson);
+app.use('/api/invoice', invoice);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -2,6 +2,16 @@ doctype html
 html
   head
     title= title
-    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='/bootstrap-css/bootstrap.min.css')
   body
-    block content
+    div.container
+      h2.jumbotron Welcome to AdventureWorks Invoicing
+      block content
+
+      div.row
+        h6.col-sm-12 The example companies, organizations, products, domain names, e-mail addresses, logos, people, places, and events depicted herein are fictitious. No association with any real company, organization, product, domain name, email address, logo, person, places, or events is intended or should be inferred.
+
+    script(src="/jquery/jquery.js")
+    script(src="/bootstrap-css/bootstrap.min.js")
+    block scripts
+    

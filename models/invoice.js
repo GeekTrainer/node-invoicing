@@ -15,7 +15,7 @@ var invoiceSchema = new Schema({
     company: {type: String, index: true},
     state: {type: String, enum: ['Open', 'Closed', 'Past Due']},
     items: [itemSchema],
-    salesperson_id: ObjectId
+    _salespersonId: Schema.Types.ObjectId
 });
 
 invoiceSchema.virtual('total').get(function() {
@@ -24,4 +24,4 @@ invoiceSchema.virtual('total').get(function() {
     return runningTotal;
 });
 
-module.exports = mongoose.model('invoice', invoiceSchema);
+module.exports = mongoose.model('Invoice', invoiceSchema);

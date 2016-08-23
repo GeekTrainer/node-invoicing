@@ -13,16 +13,16 @@ var initialSalesperson, initialInvoice;
 
 beforeEach(function (done) {
     initialSalesperson = new Salesperson({ name: 'Christopher', email: 'charrison@fourthcoffee.com' });
-    
-    initialSalesperson.save(function(err) {
-        if(err) console.log(err);
-        
+
+    initialSalesperson.save(function (err) {
+        if (err) console.log(err);
+
         initialInvoice = new Invoice({
             company: 'Northwind Traders',
             _salespersonId: initialSalesperson._id
         });
 
-        initialInvoice.save(function(err) {
+        initialInvoice.save(function (err) {
             done();
         });
     });
@@ -30,7 +30,7 @@ beforeEach(function (done) {
 
 afterEach(function (done) {
     Invoice.collection.drop();
-    Salesperson.collection.drop();    
+    Salesperson.collection.drop();
     done();
 });
 
@@ -43,19 +43,24 @@ describe('Invoices', function () {
             .send({ invoice: { company: 'Test company' } })
             .end(function (err, res) {
                 res.should.have.status(200);
-                res.should.be.json;
-                res.body.should.be.a('object');
-                res.body.should.have.property('company');
-                res.body.company.should.equal('Test company');
-                res.body.should.have.property('_id');
+                shouldBeInvoice(res, 'Test company');
                 done();
             });
     });
 
-    it('Should load all invoices for a salesperson', function(done) {
+    it('Should load invoice by ID', function (done) {
+        chai.request(server)
+            .get('/api/invoice/' + initialInvoice._id.toString())
+            .end(function (err, res) {
+                shouldBeInvoice(res, initialInvoice.company);
+                done();
+            });
+    });
+
+    it('Should load all invoices for a salesperson', function (done) {
         chai.request(server)
             .get('/api/invoice/salesperson/' + initialSalesperson._id)
-            .end(function(err, res) {
+            .end(function (err, res) {
                 res.should.have.status(200);
                 res.should.be.json;
                 res.body.should.be.a('array');
@@ -63,7 +68,15 @@ describe('Invoices', function () {
                 res.body[0].company.should.equal(initialInvoice.company);
                 res.body[0].should.have.property('_salespersonId');
                 res.body[0]._salespersonId.should.equal(initialSalesperson._id.toString());
+                done();
             });
-        done();
     });
 });
+
+function shouldBeInvoice(res, company) {
+    res.should.be.json;
+    res.body.should.be.a('object');
+    res.body.should.have.property('company');
+    res.body.company.should.equal(company);
+    res.body.should.have.property('_id');
+}

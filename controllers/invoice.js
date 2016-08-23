@@ -8,7 +8,6 @@ router.get('/salesperson/:id', function (req, res) {
             console.log(err);
             req.status(500).end();
         } else {
-            console.log(invoices);
             res.json(invoices)
         }
     })

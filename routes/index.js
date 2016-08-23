@@ -1,12 +1,9 @@
 var express = require('express');
 var router = express.Router();
-var Invoice = require('../models/invoice.js');
+var SalesPerson = require('../models/salesperson.js');
 
-/* GET home page. */
 router.get('/', function(req, res, next) {
-  // res.render('index', { title: 'Express' });
-
-  Invoice.distinct('salesPerson', function(err, salesPeople) {
+  SalesPerson.find().select('name _id').sort('name').exec(function(err, salesPeople) {
     if(!err) {
       console.log(salesPeople);
       res.render('index', {salesPeople: salesPeople});

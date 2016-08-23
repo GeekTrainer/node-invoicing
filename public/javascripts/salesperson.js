@@ -2,7 +2,6 @@ var viewModel = {};
 
 var Item = function (data) {
     var self = this;
-
     self.name = ko.observable(data.name);
     self.number = ko.observable(data.number);
     self.price = ko.observable(data.price);
@@ -10,7 +9,6 @@ var Item = function (data) {
 
 var Invoice = function (data) {
     var self = this;
-
     self.id = ko.observable(data._id);
     self.company = ko.observable(data.company);
     self.state = ko.observable(data.state);

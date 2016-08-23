@@ -3,4 +3,4 @@ extends layout
 block content
   ul.list-group
     each salesPerson in salesPeople
-      a.list-group-item(href='salesperson/#{salesPerson}')=salesPerson
+      a.list-group-item(href='salesperson/#{salesPerson.name}')=salesPerson.name

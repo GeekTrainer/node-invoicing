@@ -1,28 +1,37 @@
-var Invoice = require('./models.invoice.js')
+var SalesPerson = require('./models/salesperson.js');
+var mongoose = require('mongoose');
 
-createData();
+// createData();
 
 function createData() {
-    mongoose.connect('mongodb://localhost/invoices');
+    mongoose.connect('mongodb://test-geektrainer:Y7uOxCe3UtYVpzRvtdTUFZCxNJxWEr9PrWMc43adGpEoPO4uZveuAuz0tGEGfrehQlOEAv9nIN8JnguRLccCew==@test-geektrainer.documents.azure.com:10250/?ssl=true');
 
-    Invoice.remove({}, function(err) {
-        if(!err) {
-            var invoices = [];
-            for(var counter = 0; counter < 1000; counter++) {
-                var invoice = new Invoice({
-                    company: getItem(['AdventureWorks', 'Contoso', 'Blue Yonder Airlines', 'Coho Winery', 'Fourth Coffee', 'Northwind Traders', 'Wingtip Toys']),
-                    salesPerson: getItem(['Peter', 'Kelly', 'Brandy', 'Faye', 'Marcus', 'Heriberto', 'Marquita', 'Bethany', 'Larry', 'Christopher']),
-                    state: getItem(['Open', 'Closed', 'Past Due']),
-                    items: getLineItems()
-                });
-                invoices.unshift(invoice);
-            }
-            Invoice.create(invoices, function(err){
-                if(err) console.log(err);
-                else console.log('Done!!');
-            })
-        } else {
+    SalesPerson.remove({}).exec(function(err) {
+        if(err) {
             console.log(err);
+        } else {
+            var salesPeople = [];
+            ['Peter', 'Kelly', 'Brandy', 'Faye', 'Marcus', 'Heriberto', 'Marquita', 'Bethany', 'Larry', 'Christopher'].forEach(function(name) {
+                var salesPerson = {};
+                salesPerson.name = name;
+                salesPerson.email = name + '@fourthcoffee.com';
+                var invoiceCount = Math.floor(Math.random() * 20) + 1;
+                salesPerson.invoices = []
+                for(var index = 0; index < invoiceCount; index++) {
+                    var invoice = {
+                        company: getItem(['AdventureWorks', 'Contoso', 'Blue Yonder Airlines', 'Coho Winery', 'Northwind Traders', 'Wingtip Toys']),
+                        state: getItem(['Open', 'Closed', 'Past Due']),
+                        items: getLineItems()
+                    };
+                    salesPerson.invoices.unshift(invoice);                   
+                }
+                salesPeople.unshift(salesPerson);
+            });
+
+            SalesPerson.create(salesPeople, function(err) {
+                if(err) console.log(err);
+                else console.log('SalesPeople Created!!');
+            });
         }
     });
 }

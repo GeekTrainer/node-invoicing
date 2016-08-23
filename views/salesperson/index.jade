@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  h3 Invoices for #{salesPerson}
+  h3 Invoices for #{salesPerson.name}
   div.row
     button.btn.btn-success(data-bind="click: displayForm") Create Invoice
   div.alert.alert-success.hidden#alert-message
@@ -12,7 +12,7 @@ block content
         th Company
         th State
         th.text-right Due
-      each invoice in invoices
+      each invoice in salesPerson.invoices
         tr(data-bind="{click: displayForm.bind(null, '#{invoice._id}')}")
           td=invoice.company
           td=invoice.state
@@ -34,7 +34,7 @@ block content
             form.form-inline
               div.form-group
                 label.sr-only Product name
-                select.form-control(data-bind="{value: name, options: $root.products}")
+                select.form-control(data-bind="{value: name, options: $root.products }")
               div.form-group
                 label &nbsp;Number:&nbsp;
                 input.form-control(type="text", data-bind="value: number")

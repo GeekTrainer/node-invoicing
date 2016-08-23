@@ -30,6 +30,7 @@ beforeEach(function (done) {
 
 afterEach(function (done) {
     Invoice.collection.drop();
+    Salesperson.collection.drop();    
     done();
 });
 

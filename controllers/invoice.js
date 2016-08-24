@@ -37,15 +37,13 @@ router.post('/', function(req, res) {
 });
 
 router.put('/:id', function (req, res) {
-    console.log(req.body.invoice);
-    var invoice = JSON.parse(req.body.invoice);
     try {
-        SalesPerson.update({ 'invoices._id': invoice.id }, { 'invoices.$': invoice }, function (err) {
+        Invoice.findOneAndUpdate({ _id: req.params.id }, JSON.parse(req.body.invoice), {new: true}).exec(function (err, invoice) {
             if (err) {
                 console.log(err);
                 res.status(500).end();
             } else {
-                res.status(202).end();
+                res.json(invoice);
             }
         });
     } catch (err) {

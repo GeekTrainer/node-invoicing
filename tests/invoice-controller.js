@@ -10,6 +10,7 @@ var Invoice = require('../models/invoice');
 var Salesperson = require('../models/salesperson');
 
 var initialSalesperson, initialInvoice;
+var url = '/api/invoice/'
 
 beforeEach(function (done) {
     initialSalesperson = new Salesperson({ name: 'Christopher', email: 'charrison@fourthcoffee.com' });
@@ -39,7 +40,7 @@ chai.use(chaiHttp);
 describe('Invoices', function () {
     it('Should create a single invoice in /invoices POST', function (done) {
         chai.request(server)
-            .post('/api/invoice')
+            .post(url)
             .send({ invoice: { company: 'Test company' } })
             .end(function (err, res) {
                 res.should.have.status(200);
@@ -50,16 +51,27 @@ describe('Invoices', function () {
 
     it('Should load invoice by ID', function (done) {
         chai.request(server)
-            .get('/api/invoice/' + initialInvoice._id.toString())
+            .get(url + initialInvoice._id.toString())
             .end(function (err, res) {
                 shouldBeInvoice(res, initialInvoice.company);
                 done();
             });
     });
 
+    it('Should update invoice in /invoices PUT', function(done) {
+        initialInvoice.company = 'Updated company';
+        chai.request(server)
+            .put(url + initialInvoice._id)
+            .send({invoice: JSON.stringify(initialInvoice)})
+            .end(function(err, res) {
+                shouldBeInvoice(res, initialInvoice.company);
+                done();
+            });
+    })
+
     it('Should load all invoices for a salesperson', function (done) {
         chai.request(server)
-            .get('/api/invoice/salesperson/' + initialSalesperson._id)
+            .get(url + 'salesperson/' + initialSalesperson._id)
             .end(function (err, res) {
                 res.should.have.status(200);
                 res.should.be.json;

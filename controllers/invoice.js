@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var Invoice = require('../models/invoice.js');
+var BaseController = require('./base-controller');
+
+var baseController = new BaseController(Invoice);
 
 router.get('/salesperson/:id', function (req, res) {
     Invoice.find({ _salespersonId: req.params.id }).exec(function (err, invoices) {
@@ -13,43 +16,13 @@ router.get('/salesperson/:id', function (req, res) {
     })
 });
 
-router.get('/:id', function (req, res) {
-    Invoice.findById(req.params.id).exec(function (err, invoice) {
-        if (err) {
-            console.log(err);
-            res.status(500).end();
-        } else {
-            res.json(invoice);
-        }
-    });
-});
+router.get('/:id', baseController.getOne);
 
-router.post('/', function(req, res) {
-    var invoice = new Invoice(req.body.invoice);
-    invoice.save(function(err) {
-        if(err) {
-            console.log(err);
-            res.status(500).end();
-        } else {
-            res.json(invoice);
-        }
-    });
-});
+router.post('/', baseController.post);
 
-router.put('/:id', function (req, res) {
-    try {
-        Invoice.findOneAndUpdate({ _id: req.params.id }, JSON.parse(req.body.invoice), {new: true}).exec(function (err, invoice) {
-            if (err) {
-                console.log(err);
-                res.status(500).end();
-            } else {
-                res.json(invoice);
-            }
-        });
-    } catch (err) {
-        console.log(err);
-    }
-});
+router.put('/:id', baseController.put);
+
+router.delete('/:id', baseController.delete);
 
 router.get('/products', function (req, res) {
     res.json([

@@ -41,7 +41,7 @@ describe('Invoices', function () {
     it('Should create a single invoice in /invoices POST', function (done) {
         chai.request(server)
             .post(url)
-            .send({ invoice: { company: 'Test company' } })
+            .send({ item: { company: 'Test company' } })
             .end(function (err, res) {
                 res.should.have.status(200);
                 shouldBeInvoice(res, 'Test company');
@@ -62,10 +62,22 @@ describe('Invoices', function () {
         initialInvoice.company = 'Updated company';
         chai.request(server)
             .put(url + initialInvoice._id)
-            .send({invoice: JSON.stringify(initialInvoice)})
+            .send({item: JSON.stringify(initialInvoice)})
             .end(function(err, res) {
                 shouldBeInvoice(res, initialInvoice.company);
                 done();
+            });
+    });
+
+    it('Should delete invoice in /invoices DELETE', function(done) {
+        chai.request(server)
+            .delete(url + initialInvoice._id)
+            .end(function(err, res) {
+                res.should.have.status(202);
+                Invoice.findById(initialInvoice._id).exec(function(err, invoice) {
+                    should.not.exist(invoice);
+                    done();
+                });
             });
     })
 

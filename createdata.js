@@ -1,10 +1,10 @@
 var SalesPerson = require('./models/salesperson.js');
 var mongoose = require('mongoose');
 
-// createData();
+createData();
 
 function createData() {
-    mongoose.connect('mongodb://test-geektrainer:Y7uOxCe3UtYVpzRvtdTUFZCxNJxWEr9PrWMc43adGpEoPO4uZveuAuz0tGEGfrehQlOEAv9nIN8JnguRLccCew==@test-geektrainer.documents.azure.com:10250/?ssl=true');
+    mongoose.connect('mongodb://localhost/invoicing');
 
     SalesPerson.remove({}).exec(function(err) {
         if(err) {

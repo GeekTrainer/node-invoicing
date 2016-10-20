@@ -64,15 +64,14 @@ viewModel.save = function () {
 }
 
 $(function () {
-    // $.get('/api/invoice/products')
-    //     .then(function (data) {
-    //         viewModel.products(data);
-    //     })
-    //     .then($.get('/api/invoice/states')
-    //         .then(function (data) {
-    //             viewModel.states(data);
-    //         }));
-    $.get('/api/invoice/products');
+    $.get('/api/metadata/products')
+        .then(function (data) {
+            viewModel.products(data);
+        })
+        .then($.get('/api/metadata/states')
+            .then(function (data) {
+                viewModel.states(data);
+            }));
 })
 
 ko.applyBindings(viewModel);

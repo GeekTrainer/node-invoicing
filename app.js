@@ -12,9 +12,6 @@ try {
   console.log(err);
 }
 
-var routes = require('./routes/index');
-var salesperson = require('./controllers/salesperson.js');
-var invoice = require('./controllers/invoice.js');
 
 var app = express();
 
@@ -30,8 +27,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+const routes = require('./routes/index');
+const salesperson = require('./controllers/salesperson.js');
+const invoice = require('./controllers/invoice.js');
+const metadata = require('./controllers/metadata.js');
+
 app.use('/salesperson', salesperson);
 app.use('/api/invoice', invoice);
+app.use('/api/metadata', metadata);
 app.use('/', routes);
 
 // catch 404 and forward to error handler

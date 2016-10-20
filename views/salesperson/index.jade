@@ -1,7 +1,7 @@
 extends ../layout
 
 block content
-  h3 Invoices for #{salesPerson.name}
+  h3 Invoices for #{salesperson.name}
   div.row
     button.btn.btn-success(data-bind="click: displayForm") Create Invoice
   div.alert.alert-success.hidden#alert-message
@@ -12,7 +12,7 @@ block content
         th Company
         th State
         th.text-right Due
-      each invoice in salesPerson.invoices
+      each invoice in salesperson.invoices
         tr(data-bind="{click: displayForm.bind(null, '#{invoice._id}')}")
           td=invoice.company
           td=invoice.state

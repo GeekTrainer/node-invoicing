@@ -2,8 +2,8 @@ var express = require('express');
 var router = express.Router();
 var Salesperson = require('../models/salesperson.js');
 
-router.get('/:name', function(req, res, next) {
-    Salesperson.findOne({ name: req.params.name }).exec(function(err, salesPerson) {
+router.get('/:name', (req, res, next) => {
+    Salesperson.findOne({ name: req.params.name }).exec((err, salesperson) => {
         if(err) {
             console.log(err);
         } else {

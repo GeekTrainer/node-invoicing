@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 router.get('/products', (req, res) => {
-    console.log('------------- HERE -------------------');
     res.json([
         'Filters',
         'Coffee Machine',

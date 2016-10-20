@@ -15,8 +15,6 @@ router.get('/:name', (req, res, next) => {
                         if (err) {
                             console.log(err);
                         } else {
-                            console.log(salesperson);
-                            console.log(invoices);
                             salesperson.invoices = invoices;
                             res.render('salesperson/index', { salesperson: salesperson });
                         }

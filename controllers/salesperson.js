@@ -1,15 +1,28 @@
-var express = require('express');
-var router = express.Router();
-var Salesperson = require('../models/salesperson.js');
+const express = require('express');
+const router = express.Router();
+const Salesperson = require('../models/salesperson.js');
+const Invoice = require('../models/invoice.js');
 
 router.get('/:name', (req, res, next) => {
-    Salesperson.findOne({ name: req.params.name }).exec((err, salesperson) => {
-        if(err) {
-            console.log(err);
-        } else {
-            res.render('salesperson/index', {salesperson: salesperson});
-        }
-    });
+    Salesperson.findOne({ name: req.params.name })
+        .exec((err, salesperson) => {
+            if (err) {
+                console.log(err);
+            } else {
+                Invoice
+                    .find({ _salespersonId: salesperson._id })
+                    .exec((err, invoices) => {
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(salesperson);
+                            console.log(invoices);
+                            salesperson.invoices = invoices;
+                            res.render('salesperson/index', { salesperson: salesperson });
+                        }
+                    });
+            }
+        });
 });
 
 module.exports = router;

@@ -1,8 +1,8 @@
 var BaseController = function (Item) {
     var self = this;
 
-    self.getOne = function (req, res) {
-        Item.findById(req.params.id).exec(function (err, item) {
+    self.getOne = (req, res) => {
+        Item.findById(req.params.id).exec((err, item) => {
             if (err) {
                 console.log(err);
                 res.status(500).end();
@@ -12,9 +12,9 @@ var BaseController = function (Item) {
         });
     };
 
-    self.post = function (req, res) {
+    self.post = (req, res) => {
         var item = new Item(req.body.item);
-        item.save(function (err) {
+        item.save((err) => {
             if (err) {
                 console.log(err);
                 res.status(500).end();
@@ -24,11 +24,11 @@ var BaseController = function (Item) {
         });
     };
 
-    self.put = function (req, res) {
+    self.put = (req, res) => {
         Item.findOneAndUpdate({ _id: req.params.id },
             JSON.parse(req.body.item),
             { new: true })
-            .exec(function (err, item) {
+            .exec((err, item) => {
                 if (err) {
                     console.log(err);
                     res.status(500).end();
@@ -38,8 +38,8 @@ var BaseController = function (Item) {
             });
     };
 
-    self.delete = function (req, res) {
-        Item.remove({ _id: req.params.id }, function (err) {
+    self.delete = (req, res) => {
+        Item.remove({ _id: req.params.id }, (err) => {
             if (err) {
                 console.log(err);
                 res.status(500).end();

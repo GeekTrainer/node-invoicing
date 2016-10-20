@@ -46,7 +46,7 @@ viewModel.save = function () {
     var method = '';
     var operation = '';
 
-    if(currentInvoice.id) {   
+    if (currentInvoice.id) {
         var id = currentInvoice.id;
         url += id;
         operation = 'Updated';
@@ -56,21 +56,23 @@ viewModel.save = function () {
     }
     $.ajax(url, {
         method: method,
-        data: {invoice: ko.toJSON(this)},
-    }).then(function() {
+        data: { invoice: ko.toJSON(this) },
+    }).then(function () {
         viewModel.displayAlert(operation + ' invoice for ' + currentInvoice.company);
         $('#invoice-form').modal('toggle');
     });
 }
 
 $(function () {
-    $.get('/api/invoice/products')
-        .then(function (data) {
-            viewModel.products(data);
-        }).then($.get('/api/invoice/states')
-            .then(function (data) {
-                viewModel.states(data);
-            }));
+    // $.get('/api/invoice/products')
+    //     .then(function (data) {
+    //         viewModel.products(data);
+    //     })
+    //     .then($.get('/api/invoice/states')
+    //         .then(function (data) {
+    //             viewModel.states(data);
+    //         }));
+    $.get('/api/invoice/products');
 })
 
 ko.applyBindings(viewModel);

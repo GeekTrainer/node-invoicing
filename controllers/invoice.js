@@ -27,6 +27,7 @@ router.put('/:id', baseController.put);
 router.delete('/:id', baseController.delete);
 
 router.get('/products', (req, res) => {
+    console.log('------------- HERE -------------------');
     res.json([
         'Filters',
         'Coffee Machine',

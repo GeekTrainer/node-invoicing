@@ -64,7 +64,6 @@ function getLineItems() {
         item.number = Math.floor(Math.random() * 10) + 1;
         items.unshift(item);
     }
-    // console.log(items);
     return items;
 }
 

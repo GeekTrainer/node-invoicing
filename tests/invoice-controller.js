@@ -30,9 +30,9 @@ beforeEach(function (done) {
 });
 
 afterEach(function (done) {
-    Invoice.collection.drop();
-    Salesperson.collection.drop();
-    done();
+    require('mongoose').connection.db.dropDatabase(function (err) {
+        done();
+    });
 });
 
 chai.use(chaiHttp);
@@ -58,23 +58,23 @@ describe('Invoices', function () {
             });
     });
 
-    it('Should update invoice in /invoices PUT', function(done) {
+    it('Should update invoice in /invoices PUT', function (done) {
         initialInvoice.company = 'Updated company';
         chai.request(server)
             .put(url + initialInvoice._id)
-            .send({item: JSON.stringify(initialInvoice)})
-            .end(function(err, res) {
+            .send({ item: JSON.stringify(initialInvoice) })
+            .end(function (err, res) {
                 shouldBeInvoice(res, initialInvoice.company);
                 done();
             });
     });
 
-    it('Should delete invoice in /invoices DELETE', function(done) {
+    it('Should delete invoice in /invoices DELETE', function (done) {
         chai.request(server)
             .delete(url + initialInvoice._id)
-            .end(function(err, res) {
+            .end(function (err, res) {
                 res.should.have.status(202);
-                Invoice.findById(initialInvoice._id).exec(function(err, invoice) {
+                Invoice.findById(initialInvoice._id).exec(function (err, invoice) {
                     should.not.exist(invoice);
                     done();
                 });

@@ -35,7 +35,7 @@ viewModel.displayForm = function (invoiceId) {
             $('#invoice-form').modal('toggle');
         });
     } else {
-        viewModel.currentInvoice(new Invoice());
+        viewModel.currentInvoice(new Invoice({}));
         $('#invoice-form').modal('toggle');
     }
 }

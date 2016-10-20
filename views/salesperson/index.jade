@@ -2,8 +2,8 @@ extends ../layout
 
 block content
   h3 Invoices for #{salesperson.name}
-  div.row
-    button.btn.btn-success(data-bind="click: displayForm") Create Invoice
+  //- div.row
+  //-   button.btn.btn-success(data-bind="click: displayForm") Create Invoice
   div.alert.alert-success.hidden#alert-message
     h4(data-bind="{text: alertMessage}")
   div.table-responsive

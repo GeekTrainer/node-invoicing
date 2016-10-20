@@ -6,14 +6,16 @@ const BaseController = require('./base-controller');
 const baseController = new BaseController(Invoice);
 
 router.get('/salesperson/:id', (req, res) => {
-    Invoice.find({ _salespersonId: req.params.id }).exec((err, invoices) => {
-        if (err) {
-            console.log(err);
-            req.status(500).end();
-        } else {
-            res.json(invoices)
-        }
-    })
+    Invoice
+        .find({ _salespersonId: req.params.id })
+        .exec((err, invoices) => {
+            if (err) {
+                console.log(err);
+                req.status(500).end();
+            } else {
+                res.json(invoices)
+            }
+        })
 });
 
 router.get('/:id', baseController.getOne);
@@ -42,7 +44,5 @@ router.get('/products', (req, res) => {
 router.get('/states', (req, res, next) => {
     res.json(['Open', 'Closed']);
 });
-
-
 
 module.exports = router;

@@ -12,7 +12,6 @@ try {
   console.log(err);
 }
 
-
 var app = express();
 
 // view engine setup

@@ -1,11 +1,12 @@
 const Salesperson = require('./models/salesperson.js');
 const Invoice = require('./models/invoice.js');
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 createData();
 
 function createData() {
-    mongoose.connect('mongodb://localhost/invoicing');
+    mongoose.connect(process.env.DB_CONNECTION_STRING);
 
     Salesperson.remove({})
         .exec((err) => {
